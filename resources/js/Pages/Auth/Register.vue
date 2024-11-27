@@ -13,20 +13,28 @@ const form = useForm({
     password_confirmation: '',
 });
 
-const submit = () => {
+const submit = async () => {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
+        onSuccess: (response) => {
+            // After successful registration, the user can be redirected to the login page or dashboard
+            alert('Registration successful');
+            window.location.href = '/login'; // Redirecting to login page
+        },
+        onError: () => {
+            alert('Something went wrong');
+        }
     });
 };
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="Register"/>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Name"/>
 
                 <TextInput
                     id="name"
@@ -38,11 +46,11 @@ const submit = () => {
                     autocomplete="name"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-2" :message="form.errors.name"/>
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Email"/>
 
                 <TextInput
                     id="email"
@@ -53,11 +61,11 @@ const submit = () => {
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError class="mt-2" :message="form.errors.email"/>
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Password"/>
 
                 <TextInput
                     id="password"
@@ -68,11 +76,11 @@ const submit = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError class="mt-2" :message="form.errors.password"/>
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirm Password"/>
 
                 <TextInput
                     id="password_confirmation"
@@ -83,7 +91,7 @@ const submit = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                <InputError class="mt-2" :message="form.errors.password_confirmation"/>
             </div>
 
             <div class="flex items-center justify-end mt-4">

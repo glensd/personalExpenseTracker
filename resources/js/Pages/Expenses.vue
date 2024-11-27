@@ -1,32 +1,65 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 
+// Form data and state management
 const expenseForm = useForm({
-    category: '',
+    category_id: '', // Category ID for the dropdown
     amount: '',
-    date: '',
+    description: '',
+    expense_date: '',
 });
 
-const addExpense = () => {
-    expenseForm.post('/api/expenses', {
-        onFinish: () => expenseForm.reset(),
-    });
+const categories = ref([]); // To hold the category list
+const expenses = ref([]); // To hold the list of expenses
+
+// Fetch categories and expenses on component mount
+onMounted(() => {
+    fetchCategories();
+    fetchExpenses();
+});
+
+// Fetch categories from the API
+const fetchCategories = async () => {
+    try {
+        const response = await fetch('/api/categories');
+        const data = await response.json();
+        categories.value = data.data; // Assuming response has 'data'
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+    }
 };
 
-const expenses = [
-    { category: 'Plants', amount: 500.0, date: '2024-10-25' },
-    { category: 'Vegetables', amount: 5000.0, date: '2024-10-25' },
-    { category: 'Groceries', amount: 5000.0, date: '2024-10-25' },
-];
+// Fetch expenses from the API
+const fetchExpenses = async () => {
+    try {
+        const response = await fetch('/api/expenses');
+        const data = await response.json();
+        expenses.value = data.data; // Assuming response has 'data'
+    } catch (error) {
+        console.error('Error fetching expenses:', error);
+    }
+};
+
+// Handle adding a new expense
+const addExpense = () => {
+    expenseForm.post('/api/expenses', {
+        onFinish: () => {
+            expenseForm.reset(); // Reset form fields after submission
+            fetchExpenses(); // Refresh the expenses list after adding a new one
+        },
+    });
+};
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Expenses" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Expenses</h2>
         </template>
 
         <div class="py-12">
@@ -36,18 +69,23 @@ const expenses = [
                     <h3 class="text-lg font-medium mb-4">Add New Expense</h3>
                     <form @submit.prevent="addExpense">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Category Dropdown -->
                             <div>
                                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                                <input
-                                    v-model="expenseForm.category"
+                                <select
+                                    v-model="expenseForm.category_id"
                                     id="category"
-                                    type="text"
                                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                                    placeholder="e.g., Groceries"
                                     required
-                                />
+                                >
+                                    <option value="" disabled>Select Category</option>
+                                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                                        {{ category.name }}
+                                    </option>
+                                </select>
                             </div>
 
+                            <!-- Amount Field -->
                             <div>
                                 <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
                                 <input
@@ -60,17 +98,31 @@ const expenses = [
                                 />
                             </div>
 
+                            <!-- Expense Date Field -->
                             <div>
-                                <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                                <label for="expense_date" class="block text-sm font-medium text-gray-700">Expense Date</label>
                                 <input
-                                    v-model="expenseForm.date"
-                                    id="date"
+                                    v-model="expenseForm.expense_date"
+                                    id="expense_date"
                                     type="date"
                                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                                     required
                                 />
                             </div>
+
+                            <!-- Description Field -->
+                            <div>
+                                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                                <input
+                                    v-model="expenseForm.description"
+                                    id="description"
+                                    type="text"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                    placeholder="e.g., Groceries"
+                                />
+                            </div>
                         </div>
+
                         <button
                             type="submit"
                             class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
@@ -94,10 +146,10 @@ const expenses = [
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="expense in expenses" :key="expense.date + expense.category">
-                            <td class="px-6 py-4 border border-gray-300">{{ expense.category }}</td>
-                            <td class="px-6 py-4 border border-gray-300">${{ expense.amount.toFixed(2) }}</td>
-                            <td class="px-6 py-4 border border-gray-300">{{ expense.date }}</td>
+                        <tr v-for="expense in expenses" :key="expense.id">
+                            <td class="px-6 py-4 border border-gray-300">{{ expense.category.name }}</td>
+                            <td class="px-6 py-4 border border-gray-300">${{ expense.amount }}</td>
+                            <td class="px-6 py-4 border border-gray-300">{{ expense.expense_date }}</td>
                         </tr>
                         </tbody>
                     </table>
