@@ -8,19 +8,45 @@ use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExpenseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = Auth::user()->expenses()->with('category')->get();
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'nullable|exists:categories,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed.',
+                'data' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $query = Expense::where('user_id', Auth::id());
+
+        // Apply filters
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('expense_date', [$request->start_date, $request->end_date]);
+        }
+
+        $expenses = $query->with('category')->get();
 
         return response()->json([
             'status' => true,
-            'message' => 'Success.',
+            'message' => 'Expenses retrieved successfully.',
             'data' => $expenses
         ], Response::HTTP_OK);
     }
@@ -33,32 +59,30 @@ class ExpenseController extends Controller
             'description' => 'nullable|string',
             'expense_date' => 'required|date',
         ]);
-        $category = Category::withTrashed()->find($request->category_id);
 
-        if (!$category || $category->trashed()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Category not found or has been deleted.',
-                'data' => null
-            ], Response::HTTP_NOT_FOUND);
-        }
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => 'Validation failed.', 'data' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+                'message' => 'Validation failed.',
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
-        $expense = new Expense();
-        $expense->user_id = Auth::id();
-        $expense->category_id = $request->category_id;
-        $expense->amount = $request->amount;
-        $expense->description = $request->description;
-        $expense->expense_date = $request->expense_date;
-        $expense->save();
+        $expense = Expense::create([
+            'user_id' => auth()->id(),
+            'category_id' => $request->category_id,
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'expense_date' => $request->expense_date,
+        ]);
+
         return response()->json([
             'status' => true,
-            'message' => 'Expenses set successfully.',
-            'data' => $expense
-        ], Response::HTTP_CREATED);
+            'message' => 'Expense added successfully.',
+            'data' => $expense->load('category'), // Include related category for the response
+        ], 201);
     }
+
 
     public function update(Request $request, $id)
     {

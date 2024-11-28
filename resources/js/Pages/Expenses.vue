@@ -1,19 +1,36 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios';
 
-// Form data and state management
+// Form data for adding expenses
 const expenseForm = useForm({
-    category_id: '', // Category ID for the dropdown
+    category_id: '',
     amount: '',
     description: '',
     expense_date: '',
 });
 
-const categories = ref([]); // To hold the category list
-const expenses = ref([]); // To hold the list of expenses
+// Reactive variables for filters
+const categoryFilter = ref('');
+const startDate = ref('');
+const endDate = ref('');
+const categories = ref([]);
+const expenses = ref([]);
+const successMessage = ref('');
+const currentPage = ref(1);
+const perPage = ref(5); // Records per page
+const perPageOptions = [5, 10, 15, 20]; // Options for records per page
+
+const paginatedExpenses = computed(() => {
+    const start = (currentPage.value - 1) * perPage.value;
+    const end = start + perPage.value;
+    return expenses.value.slice(start, end);
+});
+
+const totalPages = computed(() => Math.ceil(expenses.value.length / perPage.value));
 
 // Fetch categories and expenses on component mount
 onMounted(() => {
@@ -24,33 +41,55 @@ onMounted(() => {
 // Fetch categories from the API
 const fetchCategories = async () => {
     try {
-        const response = await fetch('/api/categories');
-        const data = await response.json();
-        categories.value = data.data; // Assuming response has 'data'
+        const response = await axios.get('/api/categories');
+        categories.value = response.data.data;
     } catch (error) {
         console.error('Error fetching categories:', error);
     }
 };
 
-// Fetch expenses from the API
+// Fetch expenses with optional filters
 const fetchExpenses = async () => {
+    const queryParams = new URLSearchParams();
+    if (categoryFilter.value) queryParams.append('category_id', categoryFilter.value);
+    if (startDate.value) queryParams.append('start_date', startDate.value);
+    if (endDate.value) queryParams.append('end_date', endDate.value);
+
     try {
-        const response = await fetch('/api/expenses');
-        const data = await response.json();
-        expenses.value = data.data; // Assuming response has 'data'
+        const response = await axios.get(`/api/expenses?${queryParams.toString()}`);
+        expenses.value = response.data.data;
     } catch (error) {
         console.error('Error fetching expenses:', error);
     }
 };
 
-// Handle adding a new expense
-const addExpense = () => {
-    expenseForm.post('/api/expenses', {
-        onFinish: () => {
-            expenseForm.reset(); // Reset form fields after submission
-            fetchExpenses(); // Refresh the expenses list after adding a new one
-        },
-    });
+// Add a new expense
+const addExpense = async () => {
+    try {
+        expenseForm.processing = true;
+        const response = await axios.post('/api/expenses', expenseForm.data());
+        expenses.value.unshift(response.data.data); // Add the new expense at the top
+        expenseForm.reset();
+
+        // Show success message
+        successMessage.value = 'Expense added successfully!';
+        setTimeout(() => {
+            successMessage.value = '';
+        }, 6000);
+    } catch (error) {
+        console.error('Error adding expense:', error.response?.data || error.message);
+    } finally {
+        expenseForm.processing = false;
+    }
+};
+
+// Pagination controls
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) currentPage.value++;
+};
+
+const previousPage = () => {
+    if (currentPage.value > 1) currentPage.value--;
 };
 </script>
 
@@ -64,7 +103,10 @@ const addExpense = () => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- Form to Add Expense -->
+                <!-- Success Message -->
+                <div v-if="successMessage" class="bg-green-100 text-green-700 p-4 rounded-md mb-4">
+                    {{ successMessage }}
+                </div>
                 <div class="bg-white shadow-sm sm:rounded-lg mb-8 p-6">
                     <h3 class="text-lg font-medium mb-4">Add New Expense</h3>
                     <form @submit.prevent="addExpense">
@@ -133,26 +175,113 @@ const addExpense = () => {
                         </button>
                     </form>
                 </div>
+                <!-- Form to Filter Expenses -->
+                <div class="bg-white shadow-sm sm:rounded-lg mb-8 p-6">
+                    <h3 class="text-lg font-medium mb-4">Filter Expenses</h3>
+                    <form @submit.prevent="fetchExpenses">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Category Filter -->
+                            <div>
+                                <label for="categoryFilter" class="block text-sm font-medium text-gray-700">Category</label>
+                                <select
+                                    v-model="categoryFilter"
+                                    id="categoryFilter"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                >
+                                    <option value="">All Categories</option>
+                                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                                        {{ category.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Start Date Filter -->
+                            <div>
+                                <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                <input
+                                    v-model="startDate"
+                                    id="startDate"
+                                    type="date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                />
+                            </div>
+
+                            <!-- End Date Filter -->
+                            <div>
+                                <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
+                                <input
+                                    v-model="endDate"
+                                    id="endDate"
+                                    type="date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                        >
+                            Apply Filters
+                        </button>
+                    </form>
+                </div>
 
                 <!-- Expenses Table -->
-                <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="bg-white shadow-sm sm:rounded-lg overflow-auto max-h-96">
                     <h3 class="text-lg font-medium mb-4 p-6">Expenses</h3>
                     <table class="table-auto w-full text-left border-collapse border border-gray-200">
                         <thead>
                         <tr class="bg-gray-100">
+                            <th class="px-6 py-3 border border-gray-300">Sr No</th>
                             <th class="px-6 py-3 border border-gray-300">Category</th>
                             <th class="px-6 py-3 border border-gray-300">Amount</th>
                             <th class="px-6 py-3 border border-gray-300">Date</th>
+                            <th class="px-6 py-3 border border-gray-300">Description</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="expense in expenses" :key="expense.id">
+                        <tr v-for="(expense, index) in paginatedExpenses" :key="expense.id">
+                            <td class="px-6 py-4 border border-gray-300">{{ (currentPage - 1) * perPage + index + 1 }}</td>
                             <td class="px-6 py-4 border border-gray-300">{{ expense.category.name }}</td>
                             <td class="px-6 py-4 border border-gray-300">${{ expense.amount }}</td>
                             <td class="px-6 py-4 border border-gray-300">{{ expense.expense_date }}</td>
+                            <td class="px-6 py-4 border border-gray-300">{{ expense.description }}</td>
                         </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination and Records Per Page -->
+                <div class="flex justify-between items-center mt-4">
+                    <div>
+                        <label for="perPage" class="text-sm text-gray-600">Records per page:</label>
+                        <select
+                            id="perPage"
+                            v-model="perPage"
+                            class="ml-2 p-1 border rounded-md"
+                        >
+                            <option v-for="option in perPageOptions" :key="option" :value="option">
+                                {{ option }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <button
+                            @click="previousPage"
+                            :disabled="currentPage === 1"
+                            class="px-4 py-2 bg-gray-200 text-gray-600 rounded-md"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            @click="nextPage"
+                            :disabled="currentPage === totalPages"
+                            class="px-4 py-2 bg-gray-200 text-gray-600 rounded-md"
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
