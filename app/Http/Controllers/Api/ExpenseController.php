@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -161,6 +162,69 @@ class ExpenseController extends Controller
             'data' => $expenses
         ], Response::HTTP_OK);
     }
+
+    public function analytics()
+    {
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Ensure the user is logged in
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Aggregating expenses by category for the authenticated user
+        $categoryData = Expense::with('category')
+            ->where('user_id', $user->id) // Filter by user ID
+            ->selectRaw('category_id, sum(amount) as total')
+            ->groupBy('category_id')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'category' => $item->category->name,
+                    'total' => (float) $item->total,
+                ];
+            });
+
+        // Aggregating expenses by month for the authenticated user
+        $monthlyData = Expense::where('user_id', $user->id) // Filter by user ID
+        ->selectRaw('YEAR(expense_date) as year, MONTH(expense_date) as month, sum(amount) as total')
+            ->groupByRaw('YEAR(expense_date), MONTH(expense_date)')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $monthName = Carbon::create()->month($item->month)->format('F');
+                return [
+                    'month' => $monthName . ' ' . $item->year,
+                    'total' => (float) $item->total,
+                ];
+            });
+
+        // Calculate additional summary data for the authenticated user
+        $totalAmount = Expense::where('user_id', $user->id)->sum('amount'); // Filter by user ID
+        $totalCategories = Category::whereHas('expenses', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->count(); // Filter by categories linked to the user's expenses
+        $totalExpenses = Expense::where('user_id', $user->id)->count(); // Filter by user ID
+        $averageExpense = $totalExpenses > 0 ? $totalAmount / $totalExpenses : 0;
+
+        // Log the total amount for debugging
+        \Log::info('Total Amount for User ' . $user->id . ': ' . $totalAmount);
+
+        // Return the filtered data as JSON
+        return response()->json([
+            'categoryData' => $categoryData,
+            'monthlyData' => $monthlyData,
+            'summary' => [
+                'totalAmount' => $totalAmount,
+                'totalCategories' => $totalCategories,
+                'totalExpenses' => $totalExpenses,
+                'averageExpense' => $averageExpense,
+            ],
+        ]);
+    }
+
 
 }
 

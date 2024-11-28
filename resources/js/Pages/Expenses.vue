@@ -21,7 +21,7 @@ const categories = ref([]);
 const expenses = ref([]);
 const successMessage = ref('');
 const currentPage = ref(1);
-const perPage = ref(5); // Records per page
+const perPage = ref(10); // Records per page
 const perPageOptions = [5, 10, 15, 20]; // Options for records per page
 
 const paginatedExpenses = computed(() => {

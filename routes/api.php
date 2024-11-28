@@ -11,5 +11,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('expenses', ExpenseController::class);
     Route::post('expenses/summary', [ExpenseController::class, 'summary']);
+    Route::get('analytics', [ExpenseController::class, 'analytics']);
 
 });
