@@ -264,8 +264,8 @@ Below is a sample screenshot of the api and frontend, illustrating the API endpo
 <img width="150" alt="Screenshot 2024-11-29 at 11 14 31 AM" src="https://github.com/user-attachments/assets/9bd9dd16-2c6b-482e-9c87-ab3a49c3c2da">
 <img width="150" alt="Screenshot 2024-11-29 at 11 14 22 AM" src="https://github.com/user-attachments/assets/60cd1e5d-ff4a-4302-961d-de3e3b610b6e">
 <img width="150" alt="Screenshot 2024-11-29 at 11 14 42 AM" src="https://github.com/user-attachments/assets/2649d02f-d2e4-4e3f-8abc-67d7603dfe7d">
-
 </div>
+
 ## Security
 - CSRF protection implemented using Laravel middleware.
 - JWT tokens or Sanctum for API authentication.
