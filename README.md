@@ -1,66 +1,223 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Personal Expense Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
+A simple yet functional web application for tracking personal expenses. This application allows users to register/login, categorize expenses, and view a summary of their spending over a specified period. It is built using Laravel for the backend and Vue.js for the frontend.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Table of Contents
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Security](#security)
+- [Credits](#Credits)
+- [License](#license)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
+### Backend
+- **User Authentication**: Implemented using Laravel Breeze. Supports registration, login, logout, and password reset.
+- **Database Design**: Includes migrations for users, categories, and expenses tables.
+  - **Expenses Table**:
+    - user_id (Foreign key to users table)
+    - category_id (Foreign key to categories table)
+    - amount, description, expense_date
+- **CRUD Operations**:
+  - Full CRUD operations for managing expenses and categories.
+- **Expense Summary**:
+    - Summarize expenses by category over a specified period.
+- **RESTful APIs**:
+    - Endpoints for interacting with the application programmatically.
+    - Validation and proper error handling included.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Frontend
+- **UI Framework**: 
+  - Built with Vue.js using Laravel Mix for asset compilation.
+  - Responsive design for mobile and desktop.
+  - Clean and user-friendly interface using Vue.js.
+- **Expenses Dashboard**: 
+  - Add and view expenses with a form and table.
+  - Paginated table view with adjustable rows and scrollbars.
+  - Filter expenses by category and date range.
+- **Analytics**:
+    - Interactive Pie Chart and Bar Graph for expenses by category and month using Chart.js.
+    - Summary boxes for:
+      - Total Expenses
+      - Total Categories
+      - Total Amount
+      - Average Expense.
+- **Integration with Backend**:
+    - Axios and Fetch API used for connecting the frontend with Laravel backend.
 
-## Learning Laravel
+### Additional Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Validation**:
+    - Client-side and server-side validation of user input.
+- **Responsive Design**:
+    - Fully responsive and mobile-friendly UI.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Requirements
+- PHP 8.0 or higher
+- Composer
+- Laravel 8 or higher
+- Node.js and NPM
+- MySQL or any compatible database
+- Vue Js
+- Modern browser for frontend testing
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
 
-## Laravel Sponsors
+2. Navigate into the project directory:
+    ```bash
+   cd <project-directory>
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Install dependencies:
+    ```bash
+    composer install
+    ```
 
-### Premium Partners
+4. Set up your .env file:
+    ```bash
+    cp .env.example .env
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5. Generate an application key:
+    ```bash
+    php artisan key:generate
+    ```
 
-## Contributing
+6. Run migrations to set up the database:
+    ``` bash 
+    php artisan migrate
+    ```
+7. Seed the database :
+    ```bash
+    php artisan db:seed
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+8. Start Development Server:
+    ```bash
+    php artisan serve
+    ```
+9. Build Frontend Assets:
+    ```bash
+    npm run dev
+    ```
 
-## Code of Conduct
+## Project Structure
+### Directory Layout
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+├── app/Http/Controllers
+│   ├── API
+│   │   ├── CategoryController.php
+│   │   ├── ExpenseController.php
+│   ├── CategoryController.php
+│   ├── ExpenseController.php
+├── resources/js/Pages
+│   ├── Dashboard.vue
+│   ├── Expenses.vue
+│   ├── Auth
+│   │   ├── Login.vue
+│   │   ├── Register.vue
+│   │   ├── ForgotPassword.vue
+│   │   ├── ResetPassword.vue
+│   │   ├── ConfirmPassword.vue
+├── routes
+│   ├── web.php
+│   ├── api.php
 
-## Security Vulnerabilities
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+### Database Credentials
+Use the following credentials to connect to the MySQL database:
+
+-   DB_CONNECTION=mysql
+-    DB_HOST=127.0.0.1
+-    DB_PORT=3306
+-    DB_DATABASE=expense_tracker
+-    DB_USERNAME=expenseTracker
+-    DB_PASSWORD=expenseTracker@123
+
+## API Documentation
+
+### Endpoints
+
+#### Authentication
+| Method | Endpoint              | Description               |
+|--------|-----------------------|---------------------------|
+| POST   | `/api/login`          | User login               |
+| POST   | `/api/register`       | User registration        |
+
+#### Categories (CRUD Operations)
+| Method | Endpoint               | Description                |
+|--------|------------------------|----------------------------|
+| GET    | `/api/categories`      | Fetch all categories       |
+| POST   | `/api/categories`      | Create a new category      |
+| PUT    | `/api/categories/{id}` | Update a specific category |
+| DELETE | `/api/categories/{id}` | Delete a specific category |
+
+#### Expenses (CRUD Operations)
+| Method | Endpoint               | Description                |
+|--------|------------------------|----------------------------|
+| GET    | `/api/expenses`        | Fetch all expenses         |
+| POST   | `/api/expenses`        | Create a new expense       |
+| PUT    | `/api/expenses/{id}`   | Update a specific expense  |
+| DELETE | `/api/expenses/{id}`   | Delete a specific expense  |
+
+#### Summary
+| Method | Endpoint                   | Description                      |
+|--------|----------------------------|----------------------------------|
+| POST   | `/api/expenses/summary`    | Summary by category and date    |
+
+## Example Request: Adding Expense
+``` bash
+POST /api/expenses
+Content-Type: application/json
+Authorization: Bearer <auth_token>
+
+{
+  "category_id": 1,
+  "amount": 100.50,
+  "description": "Grocery shopping",
+  "expense_date": "2024-11-29"
+}
+```
+
+## Example Response
+``` bash
+{
+  "status": true,
+  "message": "Expense added successfully.",
+  "data": {
+    "id": 10,
+    "category_id": 1,
+    "amount": "100.50",
+    "description": "Grocery shopping",
+    "expense_date": "2024-11-29"
+  }
+}
+   
+```
+## Security
+- CSRF protection implemented using Laravel middleware.
+- JWT tokens or Sanctum for API authentication.
+- Validation implemented at both client-side and server-side.
+## Credits
+- Laravel: Backend framework.
+- Vue.js: Frontend framework.
+- Chart.js: For creating charts.
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+

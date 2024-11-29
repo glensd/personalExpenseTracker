@@ -18,7 +18,6 @@ class ExpenseController extends Controller
     {
         $query = Expense::where('user_id', Auth::id());
 
-        // Apply filters
         if ($request->has('category_id') && $request->category_id) {
             $query->where('category_id', $request->category_id);
         }
@@ -63,7 +62,7 @@ class ExpenseController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Expense added successfully.',
-            'data' => $expense->load('category'), // Include related category for the response
+            'data' => $expense->load('category'),
         ], 201);
     }
 

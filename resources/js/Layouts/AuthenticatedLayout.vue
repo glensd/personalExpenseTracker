@@ -121,13 +121,11 @@ const showingNavigationDropdown = ref(false);
                             Dashboard
                         </ResponsiveNavLink>
 
-                        <!-- New Expenses Link for Mobile View -->
                         <ResponsiveNavLink :href="route('expenses')" :active="route().current('expenses')">
                             Expenses
                         </ResponsiveNavLink>
                     </div>
 
-                    <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
                             <div class="font-medium text-base text-gray-800">

@@ -5,7 +5,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 
-// Form data for adding expenses
 const expenseForm = useForm({
     category_id: '',
     amount: '',
@@ -13,7 +12,6 @@ const expenseForm = useForm({
     expense_date: '',
 });
 
-// Reactive variables for filters
 const categoryFilter = ref('');
 const startDate = ref('');
 const endDate = ref('');
@@ -21,8 +19,8 @@ const categories = ref([]);
 const expenses = ref([]);
 const successMessage = ref('');
 const currentPage = ref(1);
-const perPage = ref(10); // Records per page
-const perPageOptions = [5, 10, 15, 20]; // Options for records per page
+const perPage = ref(10);
+const perPageOptions = [5, 10, 15, 20];
 
 const paginatedExpenses = computed(() => {
     const start = (currentPage.value - 1) * perPage.value;
@@ -32,13 +30,10 @@ const paginatedExpenses = computed(() => {
 
 const totalPages = computed(() => Math.ceil(expenses.value.length / perPage.value));
 
-// Fetch categories and expenses on component mount
 onMounted(() => {
     fetchCategories();
     fetchExpenses();
 });
-
-// Fetch categories from the API
 const fetchCategories = async () => {
     try {
         const response = await axios.get('/api/categories');
@@ -48,7 +43,6 @@ const fetchCategories = async () => {
     }
 };
 
-// Fetch expenses with optional filters
 const fetchExpenses = async () => {
     const queryParams = new URLSearchParams();
     if (categoryFilter.value) queryParams.append('category_id', categoryFilter.value);
@@ -63,15 +57,13 @@ const fetchExpenses = async () => {
     }
 };
 
-// Add a new expense
 const addExpense = async () => {
     try {
         expenseForm.processing = true;
         const response = await axios.post('/api/expenses', expenseForm.data());
-        expenses.value.unshift(response.data.data); // Add the new expense at the top
+        expenses.value.unshift(response.data.data);
         expenseForm.reset();
 
-        // Show success message
         successMessage.value = 'Expense added successfully!';
         setTimeout(() => {
             successMessage.value = '';
@@ -83,7 +75,6 @@ const addExpense = async () => {
     }
 };
 
-// Pagination controls
 const nextPage = () => {
     if (currentPage.value < totalPages.value) currentPage.value++;
 };
@@ -103,7 +94,6 @@ const previousPage = () => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- Success Message -->
                 <div v-if="successMessage" class="bg-green-100 text-green-700 p-4 rounded-md mb-4">
                     {{ successMessage }}
                 </div>
@@ -111,7 +101,6 @@ const previousPage = () => {
                     <h3 class="text-lg font-medium mb-4">Add New Expense</h3>
                     <form @submit.prevent="addExpense">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <!-- Category Dropdown -->
                             <div>
                                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                                 <select
@@ -127,7 +116,6 @@ const previousPage = () => {
                                 </select>
                             </div>
 
-                            <!-- Amount Field -->
                             <div>
                                 <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
                                 <input
@@ -175,7 +163,6 @@ const previousPage = () => {
                         </button>
                     </form>
                 </div>
-                <!-- Form to Filter Expenses -->
                 <div class="bg-white shadow-sm sm:rounded-lg mb-8 p-6">
                     <h3 class="text-lg font-medium mb-4">Filter Expenses</h3>
                     <form @submit.prevent="fetchExpenses">
