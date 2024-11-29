@@ -117,6 +117,13 @@ A simple yet functional web application for tracking personal expenses. This app
 │   ├── API
 │   │   ├── CategoryController.php
 │   │   ├── ExpenseController.php
+│   ├── Auth
+│   │   ├── AuthenticatedSessionController.php
+│   │   ├── RegisteredUserController.php
+│   │   ├── PasswordController.php
+│   │   ├── ConfirmablePasswordController.php
+│   │   ├── PasswordResetLinkController.php
+│   │   ├── NewPasswordController.php
 │   ├── CategoryController.php
 │   ├── ExpenseController.php
 ├── resources/js/Pages
