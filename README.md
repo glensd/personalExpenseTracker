@@ -225,10 +225,10 @@ Below is a sample screenshot of the api and frontend, illustrating the API endpo
 <img width="150" alt="Screenshot 2024-11-29 at 11 00 19 AM" src="https://github.com/user-attachments/assets/b9659a66-b532-4109-ad72-09fef5287613">
 <img width="150" alt="Screenshot 2024-11-29 at 11 00 13 AM" src="https://github.com/user-attachments/assets/2a711c71-f528-4874-99fb-e955ed62d477">
 <img width="150" alt="Screenshot 2024-11-29 at 10 56 18 AM" src="https://github.com/user-attachments/assets/2225a10a-ea3a-4cfb-83de-c2915813a853">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 46 AM" src="https://github.com/user-attachments/assets/5ef2f11a-0dca-49e9-9887-c68bdb525e1e">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 10 AM" src="https://github.com/user-attachments/assets/c03fe4f1-3c02-4daf-b007-d4ba95678f69">     
 <img width="150" alt="Screenshot 2024-11-29 at 10 57 17 AM" src="https://github.com/user-attachments/assets/570e8d72-6ef1-4db7-98b4-aaf53a090365">
 <img width="150" alt="Screenshot 2024-11-29 at 10 56 34 AM" src="https://github.com/user-attachments/assets/273628b6-530a-4b5c-b061-511233ed61e2">
-<img width="150" alt="Screenshot 2024-11-29 at 10 56 46 AM" src="https://github.com/user-attachments/assets/5ef2f11a-0dca-49e9-9887-c68bdb525e1e">
-<img width="150" alt="Screenshot 2024-11-29 at 10 57 10 AM" src="https://github.com/user-attachments/assets/c03fe4f1-3c02-4daf-b007-d4ba95678f69">   
 <img width="150" alt="Screenshot 2024-11-29 at 10 58 08 AM" src="https://github.com/user-attachments/assets/501c9232-8f03-46af-8774-a8b31451004c">
 <img width="150" alt="Screenshot 2024-11-29 at 10 57 56 AM" src="https://github.com/user-attachments/assets/9c1f1577-cdca-4476-9f4a-4d4a68c4496f">
 <img width="150" alt="Screenshot 2024-11-29 at 10 57 40 AM" src="https://github.com/user-attachments/assets/5bb884e9-4acc-4f0e-ac9e-934a1e5cdb3b">
