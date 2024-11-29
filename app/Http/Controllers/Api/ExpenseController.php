@@ -178,8 +178,8 @@ class ExpenseController extends Controller
             ->get()
             ->map(function ($item) {
                 return [
-                    'category' => $item->category->name,
-                    'total' => (float) $item->total,
+                    'category' => $item->category->name ?? '',
+                    'total' => (float) $item->total ?? '',
                 ];
             });
 
@@ -187,7 +187,7 @@ class ExpenseController extends Controller
         ->selectRaw('YEAR(expense_date) as year, MONTH(expense_date) as month, sum(amount) as total')
             ->groupByRaw('YEAR(expense_date), MONTH(expense_date)')
             ->orderBy('year', 'desc')
-            ->orderBy('month', 'desc')
+            ->orderBy('month')
             ->get()
             ->map(function ($item) {
                 $monthName = Carbon::create()->month($item->month)->format('F');
@@ -210,10 +210,10 @@ class ExpenseController extends Controller
             'categoryData' => $categoryData,
             'monthlyData' => $monthlyData,
             'summary' => [
-                'totalAmount' => $totalAmount,
-                'totalCategories' => $totalCategories,
-                'totalExpenses' => $totalExpenses,
-                'averageExpense' => $averageExpense,
+                'totalAmount' => $totalAmount ?? '',
+                'totalCategories' => $totalCategories ?? '',
+                'totalExpenses' => $totalExpenses ?? '',
+                'averageExpense' => $averageExpense ?? '',
             ],
         ]);
     }

@@ -32,10 +32,8 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
 
-        // Authenticate the user
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            // Create and return the API token
             return response()->json([
                 'token' => $user->createToken('auth-token')->plainTextToken
             ]);

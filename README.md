@@ -18,12 +18,12 @@ A simple yet functional web application for tracking personal expenses. This app
 ### Backend
 - **User Authentication**: Implemented using Laravel Breeze. Supports registration, login, logout, and password reset.
 - **Database Design**: Includes migrations for users, categories, and expenses tables.
-  - **Expenses Table**:
-    - user_id (Foreign key to users table)
-    - category_id (Foreign key to categories table)
-    - amount, description, expense_date
+    - **Expenses Table**:
+        - user_id (Foreign key to users table)
+        - category_id (Foreign key to categories table)
+        - amount, description, expense_date
 - **CRUD Operations**:
-  - Full CRUD operations for managing expenses and categories.
+    - Full CRUD operations for managing expenses and categories.
 - **Expense Summary**:
     - Summarize expenses by category over a specified period.
 - **RESTful APIs**:
@@ -31,21 +31,21 @@ A simple yet functional web application for tracking personal expenses. This app
     - Validation and proper error handling included.
 
 ### Frontend
-- **UI Framework**: 
-  - Built with Vue.js using Laravel Mix for asset compilation.
-  - Responsive design for mobile and desktop.
-  - Clean and user-friendly interface using Vue.js.
-- **Expenses Dashboard**: 
-  - Add and view expenses with a form and table.
-  - Paginated table view with adjustable rows and scrollbars.
-  - Filter expenses by category and date range.
+- **UI Framework**:
+    - Built with Vue.js using Laravel Mix for asset compilation.
+    - Responsive design for mobile and desktop.
+    - Clean and user-friendly interface using Vue.js.
+- **Expenses Dashboard**:
+    - Add and view expenses with a form and table.
+    - Paginated table view with adjustable rows and scrollbars.
+    - Filter expenses by category and date range.
 - **Analytics**:
     - Interactive Pie Chart and Bar Graph for expenses by category and month using Chart.js.
     - Summary boxes for:
-      - Total Expenses
-      - Total Categories
-      - Total Amount
-      - Average Expense.
+        - Total Expenses
+        - Total Categories
+        - Total Amount
+        - Average Expense.
 - **Integration with Backend**:
     - Axios and Fetch API used for connecting the frontend with Laravel backend.
 
