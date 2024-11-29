@@ -215,6 +215,29 @@ Authorization: Bearer <auth_token>
 
 ## Api and Frontend Screenshot
 Below is a sample screenshot of the api and frontend, illustrating the API endpoints and request/response structures. Note that only a few representative screenshots are attached.
+### Frontend Screenshots
+<div>
+<img width="150" alt="Screenshot 2024-11-29 at 10 46 05 AM" src="https://github.com/user-attachments/assets/f7f4f84d-60f6-45ad-9ff7-9cfe6f62317f">
+<img width="150" alt="Screenshot 2024-11-29 at 10 23 39 AM" src="https://github.com/user-attachments/assets/dfac7328-4a75-4e93-b58b-a32e1b326823">
+<img width="150" alt="Screenshot 2024-11-29 at 10 23 04 AM" src="https://github.com/user-attachments/assets/da7aa63a-6ef8-4e7b-8122-c9e45e7e8ae0">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 43 AM" src="https://github.com/user-attachments/assets/be6a7344-0565-4d0a-9798-aac15dc51c94">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 35 AM" src="https://github.com/user-attachments/assets/e345824c-5747-4332-9634-ca26200600eb">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 19 AM" src="https://github.com/user-attachments/assets/b9659a66-b532-4109-ad72-09fef5287613">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 13 AM" src="https://github.com/user-attachments/assets/2a711c71-f528-4874-99fb-e955ed62d477">
+<img width="150" alt="Screenshot 2024-11-29 at 10 58 08 AM" src="https://github.com/user-attachments/assets/501c9232-8f03-46af-8774-a8b31451004c">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 56 AM" src="https://github.com/user-attachments/assets/9c1f1577-cdca-4476-9f4a-4d4a68c4496f">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 40 AM" src="https://github.com/user-attachments/assets/5bb884e9-4acc-4f0e-ac9e-934a1e5cdb3b">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 33 AM" src="https://github.com/user-attachments/assets/f261326f-c6d1-4fbb-92c6-3a0259931944">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 27 AM" src="https://github.com/user-attachments/assets/6a05654d-cc62-4c83-bf32-3a970fb8fe40">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 17 AM" src="https://github.com/user-attachments/assets/570e8d72-6ef1-4db7-98b4-aaf53a090365">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 10 AM" src="https://github.com/user-attachments/assets/c03fe4f1-3c02-4daf-b007-d4ba95678f69">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 46 AM" src="https://github.com/user-attachments/assets/5ef2f11a-0dca-49e9-9887-c68bdb525e1e">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 34 AM" src="https://github.com/user-attachments/assets/273628b6-530a-4b5c-b061-511233ed61e2">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 18 AM" src="https://github.com/user-attachments/assets/2225a10a-ea3a-4cfb-83de-c2915813a853">
+
+</div>
+
+### API Screenshots
 <div>
 <img width="150" alt="Screenshot 2024-11-29 at 8 56 57 AM" src="https://github.com/user-attachments/assets/0677821f-98a1-417f-b450-a52175090741">
 <img width="150" alt="Screenshot 2024-11-29 at 8 59 31 AM" src="https://github.com/user-attachments/assets/005bd16b-2a84-4bca-86ac-9284774be19f">
