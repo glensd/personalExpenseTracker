@@ -6,6 +6,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import axios from 'axios';
 
 defineProps({
     canResetPassword: {
@@ -22,10 +24,25 @@ const form = useForm({
     remember: false,
 });
 
-const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
+const loginError = ref(''); // To handle errors
+
+const submit = async () => {
+    loginError.value = ''; // Reset previous errors
+    try {
+        const response = await axios.post('/api/login', form);
+        const token = response.data.token;
+
+        if (token) {
+            localStorage.setItem('auth_token', token); // Save token in localStorage
+            console.log('Token saved to localStorage:', token); // Debugging
+            window.location.href = '/dashboard'; // Redirect to dashboard
+        } else {
+            loginError.value = 'Unexpected response from server.';
+        }
+    } catch (error) {
+        console.error('Login Error:', error.response?.data || error);
+        loginError.value = 'Invalid email or password.';
+    }
 };
 </script>
 
@@ -35,6 +52,10 @@ const submit = () => {
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
+        </div>
+
+        <div v-if="loginError" class="mb-4 text-sm text-red-600">
+            {{ loginError }}
         </div>
 
         <form @submit.prevent="submit">
@@ -74,9 +95,20 @@ const submit = () => {
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm text-gray-600">Remember me</span>
                 </label>
+
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center">
+                    <Link
+                        :href="route('register')"
+                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Not registered?
+                    </Link>
+                </div>
+
+                <div class="flex items-center space-x-4">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
@@ -85,9 +117,10 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
+                    <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Log in
+                    </PrimaryButton>
+                </div>
             </div>
         </form>
     </GuestLayout>

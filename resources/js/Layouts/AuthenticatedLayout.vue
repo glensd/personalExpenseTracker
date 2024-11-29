@@ -32,6 +32,11 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+
+                                <!-- New Expenses Link -->
+                                <NavLink :href="route('expenses')" :active="route().current('expenses')">
+                                    Expenses
+                                </NavLink>
                             </div>
                         </div>
 
@@ -115,9 +120,12 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('expenses')" :active="route().current('expenses')">
+                            Expenses
+                        </ResponsiveNavLink>
                     </div>
 
-                    <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
                             <div class="font-medium text-base text-gray-800">

@@ -1,66 +1,284 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Personal Expense Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
+A simple yet functional web application for tracking personal expenses. This application allows users to register/login, categorize expenses, and view a summary of their spending over a specified period. It is built using Laravel for the backend and Vue.js for the frontend.
 
-## About Laravel
+## Table of Contents
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Api and Frontend Screenshot](#api-and-frontend-screenshot)
+- [Security](#security)
+- [Credits](#Credits)
+- [License](#license)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
+### Backend
+- **User Authentication**: Implemented using Laravel Breeze. Supports registration, login, logout, and password reset.
+- **Database Design**: Includes migrations for users, categories, and expenses tables.
+    - **Expenses Table**:
+        - user_id (Foreign key to users table)
+        - category_id (Foreign key to categories table)
+        - amount, description, expense_date
+- **CRUD Operations**:
+    - Full CRUD operations for managing expenses and categories.
+- **Expense Summary**:
+    - Summarize expenses by category over a specified period.
+- **RESTful APIs**:
+    - Endpoints for interacting with the application programmatically.
+    - Validation and proper error handling included.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Frontend
+- **UI Framework**:
+    - Built with Vue.js using Laravel Mix for asset compilation.
+    - Responsive design for mobile and desktop.
+    - Clean and user-friendly interface using Vue.js.
+- **Expenses Dashboard**:
+    - Add and view expenses with a form and table.
+    - Paginated table view with adjustable rows and scrollbars.
+    - Filter expenses by category and date range.
+- **Analytics**:
+    - Interactive Pie Chart and Bar Graph for expenses by category and month using Chart.js.
+    - Summary boxes for:
+        - Total Expenses
+        - Total Categories
+        - Total Amount
+        - Average Expense.
+- **Integration with Backend**:
+    - Axios and Fetch API used for connecting the frontend with Laravel backend.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Additional Features
 
-## Learning Laravel
+- **Validation**:
+    - Client-side and server-side validation of user input.
+- **Responsive Design**:
+    - Fully responsive and mobile-friendly UI.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requirements
+- PHP 8.0 or higher
+- Composer
+- Laravel 8 or higher
+- Node.js and NPM
+- MySQL or any compatible database
+- Vue Js
+- Modern browser for frontend testing
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Navigate into the project directory:
+    ```bash
+   cd <project-directory>
+   ```
 
-## Laravel Sponsors
+3. Install dependencies:
+    ```bash
+    composer install
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. Set up your .env file:
+    ```bash
+    cp .env.example .env
+    ```
 
-### Premium Partners
+5. Generate an application key:
+    ```bash
+    php artisan key:generate
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+6. Run migrations to set up the database:
+    ``` bash 
+    php artisan migrate
+    ```
+7. Seed the database :
+    ```bash
+    php artisan db:seed
+    ```
 
-## Contributing
+8. Start Development Server:
+    ```bash
+    php artisan serve
+    ```
+9. Build Frontend Assets:
+    ```bash
+    npm run dev
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Project Structure
+### Directory Layout
 
-## Code of Conduct
+```bash
+├── app/Http/Controllers
+│   ├── API
+│   │   ├── CategoryController.php
+│   │   ├── ExpenseController.php
+│   ├── Auth
+│   │   ├── AuthenticatedSessionController.php
+│   │   ├── RegisteredUserController.php
+│   │   ├── PasswordController.php
+│   │   ├── ConfirmablePasswordController.php
+│   │   ├── PasswordResetLinkController.php
+│   │   ├── NewPasswordController.php
+│   ├── CategoryController.php
+│   ├── ExpenseController.php
+├── resources/js/Pages
+│   ├── Dashboard.vue
+│   ├── Expenses.vue
+│   ├── Auth
+│   │   ├── Login.vue
+│   │   ├── Register.vue
+│   │   ├── ForgotPassword.vue
+│   │   ├── ResetPassword.vue
+│   │   ├── ConfirmPassword.vue
+├── routes
+│   ├── web.php
+│   ├── api.php
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Database Credentials
+Use the following credentials to connect to the MySQL database:
 
+-   DB_CONNECTION=mysql
+-    DB_HOST=127.0.0.1
+-    DB_PORT=3306
+-    DB_DATABASE=expense_tracker
+-    DB_USERNAME=expenseTracker
+-    DB_PASSWORD=expenseTracker@123
+
+## API Documentation
+
+### Endpoints
+
+#### Authentication
+| Method | Endpoint              | Description               |
+|--------|-----------------------|---------------------------|
+| POST   | `/api/login`          | User login               |
+| POST   | `/api/register`       | User registration        |
+
+#### Categories (CRUD Operations)
+| Method | Endpoint               | Description                |
+|--------|------------------------|----------------------------|
+| GET    | `/api/categories`      | Fetch all categories       |
+| POST   | `/api/categories`      | Create a new category      |
+| PUT    | `/api/categories/{id}` | Update a specific category |
+| DELETE | `/api/categories/{id}` | Delete a specific category |
+
+#### Expenses (CRUD Operations)
+| Method | Endpoint               | Description                |
+|--------|------------------------|----------------------------|
+| GET    | `/api/expenses`        | Fetch all expenses         |
+| POST   | `/api/expenses`        | Create a new expense       |
+| PUT    | `/api/expenses/{id}`   | Update a specific expense  |
+| DELETE | `/api/expenses/{id}`   | Delete a specific expense  |
+
+#### Summary
+| Method | Endpoint                   | Description                      |
+|--------|----------------------------|----------------------------------|
+| POST   | `/api/expenses/summary`    | Summary by category and date    |
+
+## Example Request: Adding Expense
+``` bash
+POST /api/expenses
+Content-Type: application/json
+Authorization: Bearer <auth_token>
+
+{
+  "category_id": 1,
+  "amount": 100.50,
+  "description": "Grocery shopping",
+  "expense_date": "2024-11-29"
+}
+```
+
+## Example Response
+``` bash
+{
+  "status": true,
+  "message": "Expense added successfully.",
+  "data": {
+    "id": 10,
+    "category_id": 1,
+    "amount": "100.50",
+    "description": "Grocery shopping",
+    "expense_date": "2024-11-29"
+  }
+}
+   
+```
+
+## Api and Frontend Screenshot
+Below is a sample screenshot of the api and frontend, illustrating the API endpoints and request/response structures. Note that only a few representative screenshots are attached.
+### Frontend Screenshots
+<div>
+<img width="150" alt="Screenshot 2024-11-29 at 10 46 05 AM" src="https://github.com/user-attachments/assets/f7f4f84d-60f6-45ad-9ff7-9cfe6f62317f">
+<img width="150" alt="Screenshot 2024-11-29 at 10 23 39 AM" src="https://github.com/user-attachments/assets/dfac7328-4a75-4e93-b58b-a32e1b326823">
+<img width="150" alt="Screenshot 2024-11-29 at 10 23 04 AM" src="https://github.com/user-attachments/assets/da7aa63a-6ef8-4e7b-8122-c9e45e7e8ae0">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 43 AM" src="https://github.com/user-attachments/assets/be6a7344-0565-4d0a-9798-aac15dc51c94">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 35 AM" src="https://github.com/user-attachments/assets/e345824c-5747-4332-9634-ca26200600eb">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 19 AM" src="https://github.com/user-attachments/assets/b9659a66-b532-4109-ad72-09fef5287613">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 13 AM" src="https://github.com/user-attachments/assets/2a711c71-f528-4874-99fb-e955ed62d477">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 18 AM" src="https://github.com/user-attachments/assets/2225a10a-ea3a-4cfb-83de-c2915813a853">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 46 AM" src="https://github.com/user-attachments/assets/5ef2f11a-0dca-49e9-9887-c68bdb525e1e">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 10 AM" src="https://github.com/user-attachments/assets/c03fe4f1-3c02-4daf-b007-d4ba95678f69">     
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 17 AM" src="https://github.com/user-attachments/assets/570e8d72-6ef1-4db7-98b4-aaf53a090365">
+<img width="150" alt="Screenshot 2024-11-29 at 10 56 34 AM" src="https://github.com/user-attachments/assets/273628b6-530a-4b5c-b061-511233ed61e2">
+<img width="150" alt="Screenshot 2024-11-29 at 10 58 08 AM" src="https://github.com/user-attachments/assets/501c9232-8f03-46af-8774-a8b31451004c">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 56 AM" src="https://github.com/user-attachments/assets/9c1f1577-cdca-4476-9f4a-4d4a68c4496f">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 40 AM" src="https://github.com/user-attachments/assets/5bb884e9-4acc-4f0e-ac9e-934a1e5cdb3b">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 33 AM" src="https://github.com/user-attachments/assets/f261326f-c6d1-4fbb-92c6-3a0259931944">
+<img width="150" alt="Screenshot 2024-11-29 at 10 57 27 AM" src="https://github.com/user-attachments/assets/6a05654d-cc62-4c83-bf32-3a970fb8fe40">
+<img width="150" alt="Screenshot 2024-11-29 at 11 00 57 AM" src="https://github.com/user-attachments/assets/721df8c3-b14b-4872-8ab5-634a9f4564bb">
+
+</div>
+
+### API Screenshots
+<div>
+<img width="150" alt="Screenshot 2024-11-29 at 8 56 57 AM" src="https://github.com/user-attachments/assets/0677821f-98a1-417f-b450-a52175090741">
+<img width="150" alt="Screenshot 2024-11-29 at 8 59 31 AM" src="https://github.com/user-attachments/assets/005bd16b-2a84-4bca-86ac-9284774be19f">
+<img width="150" alt="Screenshot 2024-11-29 at 8 59 12 AM" src="https://github.com/user-attachments/assets/87fcba59-9095-4607-8e87-bcb4963cd489">
+<img width="150" alt="Screenshot 2024-11-29 at 8 58 30 AM" src="https://github.com/user-attachments/assets/8e7bb60e-de44-4494-8ca9-87a964fe6a9a">
+<img width="150" alt="Screenshot 2024-11-29 at 9 03 46 AM" src="https://github.com/user-attachments/assets/f0fbdf4d-6208-4af8-81b9-634b21d5e120">
+<img width="150" alt="Screenshot 2024-11-29 at 9 03 16 AM" src="https://github.com/user-attachments/assets/37d279bf-4597-4e33-b787-a03267367723">
+<img width="150" alt="Screenshot 2024-11-29 at 9 00 48 AM" src="https://github.com/user-attachments/assets/913bee9e-bacd-4da5-8649-490b79838501">
+<img width="150" alt="Screenshot 2024-11-29 at 9 00 35 AM" src="https://github.com/user-attachments/assets/098b5c1f-7e7c-4ff3-921d-306b24c49308">
+<img width="150" alt="Screenshot 2024-11-29 at 8 59 50 AM" src="https://github.com/user-attachments/assets/e36c2015-9727-4624-b28e-cfbc6ebebef5">
+<img width="150" alt="Screenshot 2024-11-29 at 9 05 35 AM" src="https://github.com/user-attachments/assets/16aca60e-9df5-4ff6-8c8f-71b87f13c842">
+<img width="150" alt="Screenshot 2024-11-29 at 9 05 34 AM" src="https://github.com/user-attachments/assets/1595cff3-1041-4b96-9cce-530ff870abe1">
+<img width="150" alt="Screenshot 2024-11-29 at 9 04 55 AM" src="https://github.com/user-attachments/assets/1052c1a8-f21e-4b2f-8c6c-5080d43df07e">
+<img width="150" alt="Screenshot 2024-11-29 at 9 04 10 AM" src="https://github.com/user-attachments/assets/03076806-032b-426d-8f07-2472db602089">
+</div>
+
+## Database Screenshots
+<div>
+<img width="150" alt="Screenshot 2024-11-29 at 11 13 43 AM" src="https://github.com/user-attachments/assets/dd3a9a1d-1a2c-4f1c-9da4-08322034ea73">
+<img width="150" alt="Screenshot 2024-11-29 at 11 14 52 AM" src="https://github.com/user-attachments/assets/e1632a1a-600e-41ed-b672-e40e9f79226d">
+<img width="150" alt="Screenshot 2024-11-29 at 11 13 54 AM" src="https://github.com/user-attachments/assets/e3ee1faa-c41d-44c0-a255-71e86e1cea20">
+<img width="150" alt="Screenshot 2024-11-29 at 11 14 02 AM" src="https://github.com/user-attachments/assets/80e7814e-5e0b-48c8-a8cf-adf8403f3230">
+<img width="150" alt="Screenshot 2024-11-29 at 11 14 31 AM" src="https://github.com/user-attachments/assets/9bd9dd16-2c6b-482e-9c87-ab3a49c3c2da">
+<img width="150" alt="Screenshot 2024-11-29 at 11 14 22 AM" src="https://github.com/user-attachments/assets/60cd1e5d-ff4a-4302-961d-de3e3b610b6e">
+<img width="150" alt="Screenshot 2024-11-29 at 11 14 42 AM" src="https://github.com/user-attachments/assets/2649d02f-d2e4-4e3f-8abc-67d7603dfe7d">
+</div>
+
+## Security
+- CSRF protection implemented using Laravel middleware.
+- JWT tokens or Sanctum for API authentication.
+- Validation implemented at both client-side and server-side.
+## Credits
+- Laravel: Backend framework.
+- Vue.js: Frontend framework.
+- Chart.js: For creating charts.
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
