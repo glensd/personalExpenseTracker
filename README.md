@@ -3,13 +3,13 @@
 ## Overview
 A simple yet functional web application for tracking personal expenses. This application allows users to register/login, categorize expenses, and view a summary of their spending over a specified period. It is built using Laravel for the backend and Vue.js for the frontend.
 
-
 ## Table of Contents
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
+- [Api and Frontend Screenshot](#api-and-frontend-screenshot)
 - [Security](#security)
 - [Credits](#Credits)
 - [License](#license)
@@ -212,6 +212,25 @@ Authorization: Bearer <auth_token>
 }
    
 ```
+
+## Api and Frontend Screenshot
+Below is a sample screenshot of the api and frontend, illustrating the API endpoints and request/response structures. Note that only a few representative screenshots are attached.
+<div>
+<img width="150" alt="Screenshot 2024-11-29 at 8 56 57 AM" src="https://github.com/user-attachments/assets/0677821f-98a1-417f-b450-a52175090741">
+<img width="150" alt="Screenshot 2024-11-29 at 8 59 31 AM" src="https://github.com/user-attachments/assets/005bd16b-2a84-4bca-86ac-9284774be19f">
+<img width="150" alt="Screenshot 2024-11-29 at 8 59 12 AM" src="https://github.com/user-attachments/assets/87fcba59-9095-4607-8e87-bcb4963cd489">
+<img width="150" alt="Screenshot 2024-11-29 at 8 58 30 AM" src="https://github.com/user-attachments/assets/8e7bb60e-de44-4494-8ca9-87a964fe6a9a">
+<img width="150" alt="Screenshot 2024-11-29 at 9 03 46 AM" src="https://github.com/user-attachments/assets/f0fbdf4d-6208-4af8-81b9-634b21d5e120">
+<img width="150" alt="Screenshot 2024-11-29 at 9 03 16 AM" src="https://github.com/user-attachments/assets/37d279bf-4597-4e33-b787-a03267367723">
+<img width="150" alt="Screenshot 2024-11-29 at 9 00 48 AM" src="https://github.com/user-attachments/assets/913bee9e-bacd-4da5-8649-490b79838501">
+<img width="150" alt="Screenshot 2024-11-29 at 9 00 35 AM" src="https://github.com/user-attachments/assets/098b5c1f-7e7c-4ff3-921d-306b24c49308">
+<img width="150" alt="Screenshot 2024-11-29 at 8 59 50 AM" src="https://github.com/user-attachments/assets/e36c2015-9727-4624-b28e-cfbc6ebebef5">
+<img width="150" alt="Screenshot 2024-11-29 at 9 05 35 AM" src="https://github.com/user-attachments/assets/16aca60e-9df5-4ff6-8c8f-71b87f13c842">
+<img width="150" alt="Screenshot 2024-11-29 at 9 05 34 AM" src="https://github.com/user-attachments/assets/1595cff3-1041-4b96-9cce-530ff870abe1">
+<img width="150" alt="Screenshot 2024-11-29 at 9 04 55 AM" src="https://github.com/user-attachments/assets/1052c1a8-f21e-4b2f-8c6c-5080d43df07e">
+<img width="150" alt="Screenshot 2024-11-29 at 9 04 10 AM" src="https://github.com/user-attachments/assets/03076806-032b-426d-8f07-2472db602089">
+
+</div>
 ## Security
 - CSRF protection implemented using Laravel middleware.
 - JWT tokens or Sanctum for API authentication.
